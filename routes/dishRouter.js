@@ -89,7 +89,7 @@ dishRouter.route('/:dishId/comments')
         }
         else{
             err=new Error('Dish '+req.params.dishId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }        
     },(err)=>next(err))
@@ -109,7 +109,7 @@ dishRouter.route('/:dishId/comments')
         }
         else{
             err=new Error('Dish '+req.params.dishId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }        
     },(err)=>next(err))
@@ -136,7 +136,7 @@ dishRouter.route('/:dishId/comments')
         }
         else{
             err = new Error('Dish ' + req.params.dishId + ' not found');
-            err.status = 404;
+            err.status=404;
             return next(err);
         }
     },(err)=>next(err))
@@ -153,12 +153,12 @@ dishRouter.route('/:dishId/comments/:commentId')
         }
         else if(dish==null){
             err=new Error('Dish '+req.params.dishId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }
         else{
             err=new Error('Comments '+req.params.commentId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }       
     },(err)=>next(err))
@@ -188,12 +188,12 @@ dishRouter.route('/:dishId/comments/:commentId')
         }
         else if(dish==null){
             err=new Error('Dish '+req.params.dishId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }
         else{
             err=new Error('Comments '+req.params.commentId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }  
     },(err)=>next(err))
@@ -214,12 +214,12 @@ dishRouter.route('/:dishId/comments/:commentId')
         }
         else if(dish==null){
             err=new Error('Dish '+req.params.dishId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }
         else{
             err=new Error('Comments '+req.params.commentId+' not found.');
-            res.statusCode=404;
+            err.status=404;
             return next(err);
         }  
     },(err)=>next(err))
@@ -227,6 +227,10 @@ dishRouter.route('/:dishId/comments/:commentId')
 });
 
 module.exports=dishRouter;
+
+
+
+
 /*dishRouter.route('/')
 .all( (req,res,next)=>{
     res.statusCode=200;
