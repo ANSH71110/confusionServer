@@ -226,11 +226,6 @@ dishRouter.route('/:dishId/comments/:commentId')
     .catch((err)=>next(err));
 });
 
-module.exports=dishRouter;
-
-
-
-
 /*dishRouter.route('/')
 .all( (req,res,next)=>{
     res.statusCode=200;
@@ -272,5 +267,5 @@ dishRouter.route('/:dishId/')
 })
 .delete((req,res,next)=>{
     res.end('Deleting the dish:'+req.params.dishId);
-});
-module.exports=dishRouter;*/
+});*/
+module.exports=dishRouter;
