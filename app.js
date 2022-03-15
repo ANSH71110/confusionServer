@@ -45,12 +45,19 @@ app.use(session({
   store:new FileStore
 }));
 
+//only the 2 routes are accessible without authentication
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 function auth(req,res,next){
   console.log(req.session);
 
   //if(!req.signedCookies.user){
   if(!req.session.user){
-    var authHeader = req.headers.authorization;
+    var err = new Error('You are not authenticated!');
+    err.status = 403;
+    return next(err);
+    /*var authHeader = req.headers.authorization;
 
     if (!authHeader) {
       //console.log('iauthh');
@@ -76,16 +83,16 @@ function auth(req,res,next){
       res.setHeader('WWW-Authenticate', 'Basic');
       err.status = 401;
       return next(err);
-    }
+    }*/
   }
   else{
     //if(req.signedCookies.user=='admin'){
-    if(req.session.user=='admin'){
+    if(req.session.user=='authenticated'){
       next();
     }
     else{
       var err = new Error('You are not authenticated!');
-      err.status = 401;
+      err.status = 403;
       return next(err);
     }
   }
@@ -95,8 +102,6 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
