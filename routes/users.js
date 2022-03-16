@@ -3,6 +3,7 @@ const mongoose=require('mongoose');
 const { route } = require('.');
 var router = express.Router();
 const User=require('../models/user');
+const passport=require('passport');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -10,7 +11,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/signup',(req,res,next)=>{
-  User.findOne({username:req.body.username})
+  User.register(new User({username:req.body.username}),
+  req.body.password,(err,user)=>{
+    if(err){
+      res.statusCode=500;
+      res.setHeader('Content-Type','application/json');
+      res.json({err:err});
+    }
+    else{
+      passport.authenticate('local')(req,res,()=>{
+        res.statusCode=200;
+        res.setHeader('Content-Type','application/json');
+        res.json({success:true, status: 'Registration succesfull!'});
+      });
+    }
+  })
+  /*User.findOne({username:req.body.username})
   .then((user)=>{
     if(user!=null){
       var err=new Error('User '+req.body.username+' already exists!');
@@ -29,11 +45,14 @@ router.post('/signup',(req,res,next)=>{
     res.json({status:'Registration succesfull!',user:user});    
   },
   (err)=>next(err))
-  .catch((err)=>next(err));
+  .catch((err)=>next(err));*/
 });
 
-router.post('/login',(req,res,next)=>{
-  if(!req.session.user){
+router.post('/login',passport.authenticate('local'),(req,res)=>{
+  res.statusCode=200;
+  res.setHeader('Content-Type', 'application/json');
+  res.json({ success: true, status: 'You are succesfullly logged in!' });
+  /*if(!req.session.user){
     var authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -76,7 +95,7 @@ router.post('/login',(req,res,next)=>{
     res.statusCode200;
     res.setHeader('Content-type','text/plain');
     res.end('You are already authenticated1');
-  }
+  }*/
 });
 
 router.get('/logout',(req,res)=>{
