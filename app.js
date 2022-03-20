@@ -21,6 +21,7 @@ const Dishes=require('./models/dishes');
 const Promotions=require('./models/promotions');
 const Leaders=require('./models/leaders');
 const { Session } = require('express-session');
+const { hostname } = require('os');
 
 const url=config.mongoUrl;
 //const url='mongodb://localhost:27017/conFusion';
@@ -32,7 +33,14 @@ connect.then((db)=>{
 });
 
 var app = express();
+app.all('*',(req,res,next)=>{
+  if(req.secure)
+    return next();
 
+  else{
+    res.redirect(307,'https://'+hostname+':'+app.get('secPort')+req.url);
+  }
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
