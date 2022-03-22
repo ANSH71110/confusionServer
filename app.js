@@ -15,12 +15,14 @@ var dishRouter = require('./routes/dishRouter');
 var promoRouter = require('./routes/promoRouter');
 var leaderRouter = require('./routes/leaderRouter');
 var uploadRouter=require('./routes/uploadRouter');
+var favouriteRouter=require('./routes/favouriteRouter');
 
 const mongoose=require('mongoose');
 
 const Dishes=require('./models/dishes');
 const Promotions=require('./models/promotions');
 const Leaders=require('./models/leaders');
+const Favorite=require('./models/favourite');
 const { Session } = require('express-session');
 const { hostname } = require('os');
 
@@ -124,6 +126,7 @@ app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
 app.use('/imageUpload',uploadRouter);
+app.use('/favourites',favouriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
